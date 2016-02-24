@@ -1,0 +1,12 @@
+/*
+HeaderBuilder by @cemgencer:
+ 
+* https://github.com/shprink
+* https://twitter.com/julienrenaux
+* https://www.facebook.com/julienrenauxblog
+ 
+Version: <%= version %>
+Full source at https://github.com/cgencer/hb
+ 
+MIT License, https://github.com/cgencer/hb/blob/master/LICENSE
+*/
