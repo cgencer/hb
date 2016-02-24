@@ -17,22 +17,22 @@
 	 wiredep = require('wiredep').stream;
 
 	var files = {
-		npm: './package.json',
-		bower: './bower.json',
-		copyright: './copyright.txt',
-		version: './version.txt',
-		vendor: 'dist/js/vendor',
-		toClean: ['dist/css/*', 'dist/js/*.js', 'dist/*.html'],
-		jsSrc: ['src/js/*.js'],
-		jsDst: ['dist/js/*.js'],
-		cssSrc: 'src/styles/*.css',
-		cssDstPath: 'dist/css',
-		jsSrcPath: 'src/js',
-		jsDstPath: 'dist/js',
-		htmlSrc: ['src/*.html'],
-		htmlDstPath: 'dist',
-		jsSrcCombined: 'dest/js/combined.js',
-		jsDstCombined: 'dest/js/combined-min.js',
+		npm: 			'./package.json',
+		bower: 			'./bower.json',
+		copyright: 		'./copyright.txt',
+		version: 		'./version.txt',
+		vendor: 		'dist/js/vendor',
+		toClean: 		['dist/css/*', 'dist/js/*.js', 'dist/*.html'],
+		jsSrc: 			['src/js/*.js'],
+		jsDst: 			['dist/js/*.js'],
+		cssSrc: 		['src/styles/*.css'],
+		cssDstPath: 	'dist/css',
+		jsSrcPath: 		'src/js',
+		jsDstPath: 		'dist/js',
+		htmlSrc: 		['src/*.html'],
+		htmlDstPath: 	'dist',
+		jsSrcCombined: 	'dest/js/combined.js',
+		jsDstCombined: 	'dest/js/combined-min.js',
 	};
 
 	gulp.task('wiredep',function(){
@@ -44,6 +44,7 @@
 			}) )
 			.pipe( useref() )
 			.pipe( gulpif('*.css', minCss()) )
+			.pipe( gulpif('*.js', uglify()) )
 			.pipe( gulp.dest(files.htmlDstPath) );
 	});
 
@@ -58,7 +59,13 @@
 			.pipe( uglify().on('error', gutil.log) )
 			.pipe( gulp.dest(files.jsDstPath) );
 
-		gulp.src(files.htmlSrc)
+			// inject the CSS files manually
+		gulp.src(files.cssSrc)
+			.pipe( inject(gulp.src(files.cssSrc, {read: false}), {relative: true}) ) 
+			.pipe( gulpif('*.css', minCss()) )
+			.pipe( gulp.dest(files.cssDstPath) );
+
+		gulp.src(files.jsSrc)
 			.pipe( srcMaps.init() )
 			.pipe( wiredep({
 				directory: files.vendor,
@@ -68,7 +75,7 @@
 			.pipe( useref() )
 			.pipe( gulpif('*.css', minCss()) )
 			.pipe( gulpif('*.js', uglify()) )
-			.pipe( gulp.dest(files.htmlDstPath) );
+			.pipe( gulp.dest(files.jsDstPath) );
 
 		// funnily prints the copyright twice!
 		gulp.src(files.jsDst)
@@ -76,17 +83,5 @@
 			.pipe( gulp.dest(files.jsDstPath) );
 
 	});
-	/*
-		gulp.src('src/index.html')
-			.pipe( srcMaps.init() )
-			.pipe(wiredep({
-				directory: './dist/js/vendor/',
-				bowerJson: require('./bower.json'),
-			}))
-			.pipe( srcMaps.write() )
-			.pipe( useref() )
-			.pipe( gulpif('*.js', uglify()) )
-			.pipe( gulpif('*.css', minCss()) )
-			.pipe( gulp.dest('dist') );
-	*/
+
 }());
