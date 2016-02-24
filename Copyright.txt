@@ -5,9 +5,7 @@ HeaderBuilder by @cemgencer:
 * https://twitter.com/ocemgencer
 * https://www.facebook.com/ocemgencer
  
-Version: 0.0.1
+Version: <%= version %>
 Full source at https://github.com/cgencer/hb
 */
 
-/* injected into header part */
- 

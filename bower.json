@@ -1,7 +1,7 @@
 {
   "name": "headerBuilder",
   "description": "header bar dynamic wireframe builder",
-  "main": "index.htm",
+  "main": "index.html",
   "moduleType": [
     "globals"
   ],

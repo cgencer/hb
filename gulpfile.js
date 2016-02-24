@@ -1,68 +1,74 @@
-var gulp = require('gulp'),
-  uglify = require("gulp-uglify"),
- flatten = require('gulp-flatten'),
-  concat = require('gulp-concat'),
-  header = require('gulp-header'),
- wiredep = require('wiredep')({
 
-//	directory: 		'.bowerrc'.directory || bower_components,
-//	bowerJson: 		require('./bower.json'),
-	src: 			['filepaths', 'and/even/globs/*.html', 'to take', 'control of.'],
-//	cwd: 			'./',
-//	exclude: [ /jquery/, 'bower_components/modernizr/modernizr.js' ],
-//	ignorePath: /string or regexp to ignore from the injected filepath/,
+(function() {
 
-	dependencies: true,    // default: true
-	devDependencies: true, // default: false
+	var gulp = require('gulp'),
+		  fs = require("fs"),
+	   clean = require('gulp-clean'),
+	  inject = require("gulp-inject"),
+	  uglify = require("gulp-uglify"),
+	 flatten = require('gulp-flatten'),
+	  gulpif = require('gulp-if'),
+	  concat = require('gulp-concat'),
+	  header = require('gulp-header'),
+	  useref = require('gulp-useref'),
+	   gutil = require('gulp-util'),
+	  minCss = require('gulp-minify-css'),
+	 srcMaps = require('gulp-sourcemaps')
+	 wiredep = require('wiredep').stream;
 
-	html: {
-      block: /(([ \t]*)<!--\s*bower:*(\S*)\s*-->)(\n|\r|.)*?(<!--\s*endbower\s*-->)/gi,
-      detect: {
-        js: /<script.*src=['"]([^'"]+)/gi,
-        css: /<link.*href=['"]([^'"]+)/gi
-      },
-      replace: {
-        js: '<script src="{{filePath}}"></script>',
-        css: '<link rel="stylesheet" href="{{filePath}}" />'
-      }
-    },
-    less: {
-      block: /(([ \t]*)\/\/\s*bower:*(\S*))(\n|\r|.)*?(\/\/\s*endbower)/gi,
-      detect: {
-        css: /@import\s['"](.+css)['"]/gi,
-        less: /@import\s['"](.+less)['"]/gi
-      },
-      replace: {
-        css: '@import "{{filePath}}";',
-        less: '@import "{{filePath}}";'
-      }
-    },
-    jade: {
-      block: /(([ \t]*)\/\/\s*bower:*(\S*))(\n|\r|.)*?(\/\/\s*endbower)/gi,
-      detect: {
-        js: /script\(.*src=['"]([^'"]+)/gi,
-        css: /link\(.*href=['"]([^'"]+)/gi
-      },
-      replace: {
-        js: 'script(src=\'{{filePath}}\')',
-        css: 'link(rel=\'stylesheet\', href=\'{{filePath}}\')'
-      }
-    },
-});
+	var files = {
+		npm: './package.json',
+		bower: './bower.json',
+		copyright: './copyright.txt',
+		version: './version.txt',
+		toClean: ['dist/js/*.js', 'dist/*.html'],
+		jsSrc: ['src/js/*.js'],
+		jsDst: ['dist/js/*.js'],
+		cssSrc: 'src/styles/*.css',
+		cssDstPath: 'dist/css',
+		jsDstPath: 'dist/js',
+		htmlSrc: 'src/*.html',
+		htmlDstPath: 'dist',
+	};
 
-gulp.task('default', function() {
+	gulp.task('default', function() {
 
-	var fs = require('fs');
-	var getVersion = function () { return fs.readFileSync('./Version'); };
-	var	getCopyright = function () { return fs.readFileSync('./Copyright');};
+		var pkg = require(files.npm);
 
-	gulp.src('src/*.js')
-		.pipe(header(fs.readFileSync('Copyright', 'utf8')))
-		.pipe(gulp.dest('dist/'));
+		gulp.src(files.toClean)
+			.pipe(clean(), {read: false})
 
-/*
-	gulp.src('./src/index.html')
-		.pipe(wiredep())
-		.pipe(gulp.dest('./dest'));
-*/
-});
+		gulp.src(files.jsSrc)
+			.pipe( uglify().on('error', gutil.log) )
+			.pipe( gulp.dest(files.jsDstPath) );
+
+		// funnily prints the copyright twice!
+		gulp.src(files.jsDst)
+			.pipe( header(fs.readFileSync(files.copyright, 'utf8'), {version: fs.readFileSync(files.version)}) )
+			.pipe( gulp.dest(files.jsDstPath) );
+
+		gulp.src(files.cssSrc, { read: false })
+			.pipe( inject(gulp.src(files.cssSrc, {read: false})) )
+			.pipe( gulp.dest(files.cssDstPath) );
+
+		gulp.src(files.htmlSrc)
+			.pipe(wiredep({
+				directory: files.vendor,
+				bowerJson: require(files.bower),
+			}))
+			.pipe( gulp.dest(files.htmlDstPath) );
+	});
+	/*
+		gulp.src('src/index.html')
+			.pipe( srcMaps.init() )
+			.pipe(wiredep({
+				directory: './dist/js/vendor/',
+				bowerJson: require('./bower.json'),
+			}))
+			.pipe( srcMaps.write() )
+			.pipe( useref() )
+			.pipe( gulpif('*.js', uglify()) )
+			.pipe( gulpif('*.css', minCss()) )
+			.pipe( gulp.dest('dist') );
+	*/
+}());
