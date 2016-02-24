@@ -9,3 +9,5 @@ Version: 0.0.1
 Full source at https://github.com/cgencer/hb
 */
 
+/* app logic, injected into footer part */
+ 
