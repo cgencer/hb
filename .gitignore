@@ -46,4 +46,4 @@ Temporary Items
 
 # project specific
 node_modules/
-js/vendor/
+dist/js/vendor/
