@@ -1,3 +1,6 @@
 {
-  "directory" : "dist/js/vendor"
+	"directory" : "dist/js/vendor",
+	"scripts" :  {
+		"postinstall" : "gulp wiredep"
+	}
 }
