@@ -1,0 +1,26 @@
+{
+  "name": "headerBuilder",
+  "description": "header bar dynamic wireframe builder",
+  "main": "index.htm",
+  "moduleType": [
+    "globals"
+  ],
+  "keywords": [
+    "jupiter",
+    "header",
+    "theme",
+    "wordpress"
+  ],
+  "authors": [
+    "Cem Gencer"
+  ],
+  "license": "MIT",
+  "homepage": "",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ]
+}
