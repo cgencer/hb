@@ -2,38 +2,40 @@
 <html>
 <head>
   <title>My index</title>
-  <!-- build:css css/combined.css -->
+
   <!-- bower:css -->
+  <link rel="stylesheet" href="js/vendor/gridly/stylesheets/jquery.gridly.css" />
   <!-- endbower -->
+
   <!-- inject:css -->
+  <link rel="stylesheet" href="styles/app.css">
   <!-- endinject -->
-  <!-- endbuild -->
+
 </head>
 <body>
-<div class="gridster">
-    <ul>
-        <li data-row="1" data-col="1" data-sizex="1" data-sizey="1"></li>
-        <li data-row="2" data-col="1" data-sizex="1" data-sizey="1"></li>
-        <li data-row="3" data-col="1" data-sizex="1" data-sizey="1"></li>
 
-        <li data-row="1" data-col="2" data-sizex="2" data-sizey="1"></li>
-        <li data-row="2" data-col="2" data-sizex="2" data-sizey="2"></li>
+  <section class="example">
+    <div class="gridly">
+      <div class="brick small"></div>
+      <div class="brick small"></div>
+      <div class="brick small"></div>
+      <div class="brick small"></div>
+      <div class="brick small"></div>
+      <div class="brick small"></div>
+    </div>
+  </section>
 
-        <li data-row="1" data-col="4" data-sizex="1" data-sizey="1"></li>
-        <li data-row="2" data-col="4" data-sizex="2" data-sizey="1"></li>
-        <li data-row="3" data-col="4" data-sizex="1" data-sizey="1"></li>
-
-        <li data-row="1" data-col="5" data-sizex="1" data-sizey="1"></li>
-        <li data-row="3" data-col="5" data-sizex="1" data-sizey="1"></li>
-
-        <li data-row="1" data-col="6" data-sizex="1" data-sizey="1"></li>
-        <li data-row="2" data-col="6" data-sizex="1" data-sizey="2"></li>
-    </ul>
-</div>
-
-  <!-- build:js js/combined.js -->
   <!-- bower:js -->
+  <script src="js/vendor/jquery/dist/jquery.js"></script>
+  <script src="js/vendor/gridly/javascripts/jquery.gridly.js"></script>
   <!-- endbower -->
-  <!-- endbuild -->
+
+  <!-- inject:js -->
+  <script src="js/app.js"></script>
+  <script src="js/combined.js"></script>
+  <script src="js/footer.js"></script>
+  <script src="js/header.js"></script>
+  <!-- endinject -->
+
 </body>
 </html>

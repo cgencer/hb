@@ -24,7 +24,10 @@
     "tests"
   ],
   "dependencies": {
+    "draggybits": "https://github.com/jennschiffer/draggybits.git",
+    "draggable": "https://github.com/jakedowsmith/draggable.git",
+    "dragndrop": "https://github.com/frederfred/dragndrop.git",
     "jquery": "^2.2.1",
-    "gridster": "^0.5.6"
+    "gridly": "^1.2.9"
   }
 }
