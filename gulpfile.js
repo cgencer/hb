@@ -23,7 +23,7 @@
 		version: 		'./version.txt',
 		vendor: 		'dist/js/vendor',
 		toClean: 		['dist/css/*', 'dist/js/*.js', 'dist/*.html'],
-		jsSrc: 			['src/js/*.js'],
+		jsSrc: 			'src/js/*.js',
 		jsDst: 			['dist/js/*.js'],
 		cssSrc: 		['src/styles/*.css'],
 		cssDstPath: 	'dist/css',
@@ -52,9 +52,6 @@
 
 		var pkg = require(files.npm);
 
-		gulp.src(files.toClean)
-			.pipe(clean(), {read: false, force: true})
-
 		gulp.src(files.jsSrc)
 			.pipe( uglify().on('error', gutil.log) )
 			.pipe( gulp.dest(files.jsDstPath) );
@@ -65,23 +62,29 @@
 			.pipe( gulpif('*.css', minCss()) )
 			.pipe( gulp.dest(files.cssDstPath) );
 
+			// squeeze the babes...
 		gulp.src(files.jsSrc)
-			.pipe( srcMaps.init() )
+			.pipe( uglify() )
+			.pipe( gulp.dest(files.jsDstPath) );
+
+			// inject me!
+
+		gulp.src(files.htmlSrc)
 			.pipe( wiredep({
 				directory: files.vendor,
 				bowerJson: require(files.bower),
 			}) )
-			.pipe( srcMaps.write() )
 			.pipe( useref() )
 			.pipe( gulpif('*.css', minCss()) )
 			.pipe( gulpif('*.js', uglify()) )
-			.pipe( gulp.dest(files.jsDstPath) );
+			.pipe( gulp.dest(files.htmlDstPath) );
 
 		// funnily prints the copyright twice!
+/*
 		gulp.src(files.jsDst)
 			.pipe( header(fs.readFileSync(files.copyright, 'utf8'), {version: fs.readFileSync(files.version)}) )
 			.pipe( gulp.dest(files.jsDstPath) );
-
+*/
 	});
 
 }());

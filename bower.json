@@ -25,6 +25,6 @@
   ],
   "dependencies": {
     "jquery": "^2.2.1",
-    "packery": "^2.0.0"
+    "gridster": "^0.5.6"
   }
 }
