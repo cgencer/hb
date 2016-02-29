@@ -63,6 +63,7 @@
 		browserSync.init({
 			baseDir: 'dist',
 			index: 'index.html',
+			browser: ['firefox'],
 			files: ['src/index.html', 'dist/index.html', 'js/*.js', 'styles/*.css', 'src/js/*.js', 'src/styles/*.css'],
 			server: {
 				baseDir: 'dist'
@@ -118,7 +119,7 @@
 	});
 
 	gulp.task('watch', function() {
-		gulp.watch('js/*.js', ['default']);
+		gulp.watch('*', ['default']);
 	});
 
 }());

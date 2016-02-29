@@ -56,7 +56,7 @@ $(function(){ //DOM Ready
 
 	$('.wireframe').colResizable({
 		minWidth: 10,
-		gripInnerHtml: "<div class='rangeGrip'></div>",
+//		gripInnerHtml: "<div class='rangeGrip'></div>",
 		liveDrag:true,
 
 	});
