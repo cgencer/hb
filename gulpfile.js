@@ -2,10 +2,13 @@
 (function() {
 
 	var gulp = require('gulp'),
-		  fs = require("fs"),
+ browserSync = require('browser-sync').create();
+		  fs = require('fs'),
 	   clean = require('gulp-clean'),
-	  inject = require("gulp-inject"),
-	  uglify = require("gulp-uglify"),
+	 replace = require('gulp-replace'),
+       swig  = require('swig'),
+	  inject = require('gulp-inject'),
+	  uglify = require('gulp-uglify'),
 	 flatten = require('gulp-flatten'),
 	  gulpif = require('gulp-if'),
 	  concat = require('gulp-concat'),
@@ -40,9 +43,10 @@
 
 		// PATH of outputted lines need to be fixed here...
 		gulp.src(files.htmlSrc)
-			.pipe($.inject( gulp.src([ files.cssSrc ], { read: false, relative: true } ) ))
-			.pipe($.inject( gulp.src([ files.jsSrc ], { read: false, relative: true } ) ))
+			.pipe($.inject( gulp.src([ files.cssSrc ], {read: false}), {relative: true}) )
+			.pipe($.inject( gulp.src([ files.jsSrc ], {read: false}), {relative: true}) ) 
 			.pipe( wiredep({
+				cwd: files.htmlDstPath,
 				directory: files.vendor,
 				bowerJson: require(files.bower),
 			}).on('error', gutil.log) )
@@ -56,12 +60,37 @@
 
 		var pkg = require(files.npm);
 
+		browserSync.init({
+			baseDir: 'dist',
+			index: 'index.html',
+			files: ['src/index.html', 'dist/index.html', 'js/*.js', 'styles/*.css', 'src/js/*.js', 'src/styles/*.css'],
+			server: {
+				baseDir: 'dist'
+			}
+/*
+			middleware:function (req, res, next) {
+				var path = req.url.slice(-1) === '/' ? req.url + 'index.html' : req.url;
+				fs.exists('www' + path,function(exists) {
+					if (exists) {
+						var html = swig.renderFile('dist/index.html', {});
+						html = html.replace(/<\/body>/, '<script async src="file://js/vendor/browser-sync-client/dist/index.min.js"></script></body>');
+						res.end(html);
+					} else {
+						next();
+					}
+				});
+			}
+*/
+		});
+		gulp.watch(['index.html','js/*.js']).on('change', browserSync.reload);
+
 			// inject the CSS files manually
 		gulp.src(files.htmlSrc)
 			.pipe( inject(gulp.src(files.cssSrc, {read: false}), {relative: true}) ) 
 			.pipe( inject(gulp.src(files.jsSrc, {read: false}), {relative: true}) ) 
 			.pipe( gulpif('*.css', minCss().on('error', gutil.log)) )
 			.pipe( gulpif('*.js', uglify().on('error', gutil.log)) )
+			.pipe( replace('../dist/', ''))
 			.pipe( gulp.dest(files.htmlDstPath) );
 
 		gulp.src(files.jsSrc)
@@ -84,6 +113,12 @@
 			.pipe( header(fs.readFileSync(files.copyright, 'utf8'), {version: fs.readFileSync(files.version)}) )
 			.pipe( gulp.dest(files.jsDstPath) );
 */
+
+
+	});
+
+	gulp.task('watch', function() {
+		gulp.watch('js/*.js', ['default']);
 	});
 
 }());

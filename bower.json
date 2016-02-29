@@ -28,6 +28,8 @@
     "draggable": "https://github.com/jakedowsmith/draggable.git",
     "dragndrop": "https://github.com/frederfred/dragndrop.git",
     "jquery": "^2.2.1",
-    "gridly": "^1.2.9"
+    "gridly": "^1.2.9",
+    "col-resizable": "*",
+    "browser-sync-client": "^2.4.1"
   }
 }
