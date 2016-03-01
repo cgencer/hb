@@ -15,24 +15,25 @@
 <body>
 
   <section class="example">
-  <table class="wireframe">
-    <tr class="gridly clix">
-      <td class="brick small clix"></td>
-      <td class="brick small clix"></td>
-      <td class="brick small clix"></td>
-      <td class="brick small clix"></td>
-      <td class="brick small clix"></td>
-      <td class="brick small clix"></td>
+  <table id="wf">
+    <tr id="wireframe" class="gridly clix">
+      <td class="brick small clix" id="1"></td>
+      <td class="brick small clix" id="2"></td>
+      <td class="brick large clix" id="3"></td>
+      <td class="brick small clix" id="4"></td>
+      <td class="brick small clix" id="5"></td>
+      <td class="brick small clix" id="6"></td>
     </tr>
   </table>
   </section>
 
   <!-- bower:js -->
+  <script src="../dist/js/vendor/jquery/dist/jquery.js"></script>
   <script src="../dist/js/vendor/draggybits/draggybits.js"></script>
   <script src="../dist/js/vendor/draggable/draggable.js"></script>
-  <script src="../dist/js/vendor/jquery/dist/jquery.js"></script>
   <script src="../dist/js/vendor/gridly/javascripts/jquery.gridly.js"></script>
   <script src="../dist/js/vendor/col-resizable/colResizable-1.5.min.js"></script>
+  <script src="../dist/js/vendor/Sortable/Sortable.js"></script>
   <!-- endbower -->
 
   <!-- inject:js -->

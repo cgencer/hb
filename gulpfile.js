@@ -9,6 +9,7 @@
        swig  = require('swig'),
 	  inject = require('gulp-inject'),
 	  uglify = require('gulp-uglify'),
+	uglifyjs = require('gulp-uglifyjs'),
 	 flatten = require('gulp-flatten'),
 	  gulpif = require('gulp-if'),
 	  concat = require('gulp-concat'),
@@ -102,11 +103,18 @@
 			.pipe( minCss().on('error', gutil.log) )
 			.pipe( gulp.dest(files.cssDstPath) );
 
-			// squeeze the babes...
-/*		gulp.src(files.jsSrc)
-			.pipe( uglify() )
+			// squeeze the babes... #http://stackoverflow.com/questions/24591854/using-gulp-to-concatenate-and-uglify-files
+		gulp.src(files.jsSrc)
+			.pipe( uglifyjs('compiled.js', {
+				output: {
+					beautify: false
+				},
+				outSourceMap: true,
+				basePath: './',
+				sourceRoot: '/'
+			}) )
 			.pipe( gulp.dest(files.jsDstPath) );
-*/
+
 
 /*
 		// funnily prints the copyright twice!
@@ -119,7 +127,9 @@
 	});
 
 	gulp.task('watch', function() {
-		gulp.watch('*', ['default']);
+		gulp.watch('index.html', ['default']);
+		gulp.watch('js/*.js', ['default']);
+		gulp.watch('css/*.css', ['default']);
 	});
 
 }());

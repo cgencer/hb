@@ -1,6 +1,10 @@
+.gridly, .gridly > :not(.dragging) {
+  -webkit-transition: none;
+  -moz-transition: none;
+  transition: none; }
+
 .example {
   float:left;
-  margin:10px;
   width:960px;
   position: relative; }
   .example .brick {
@@ -12,7 +16,7 @@
       height: 140px; }
     .example .brick.large {
       width: 300px;
-      height: 300px; }
+      height: 140px; }
     .example .brick.dragging {
       opacity: 0.8; }
     .example .brick:nth-child(20n + 1) {

@@ -26,6 +26,7 @@
     "gulp-replace": "^0.5.4",
     "gulp-sourcemaps": "^1.6.0",
     "gulp-uglify": "^1.5.3",
+    "gulp-uglifyjs": "^0.6.2",
     "gulp-useref": "^3.0.7",
     "gulp-util": "^3.0.7",
     "gulp-wiredep": "0.0.0"

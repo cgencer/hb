@@ -30,6 +30,7 @@
     "jquery": "^2.2.1",
     "gridly": "^1.2.9",
     "col-resizable": "*",
-    "browser-sync-client": "^2.4.1"
+    "browser-sync-client": "^2.4.1",
+    "Sortable": "^1.4.2"
   }
 }
